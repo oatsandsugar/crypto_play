@@ -1,4 +1,4 @@
-# Caesar cypher
+# Vigenere cypher
 
 ## need to insert modulus (because it doesn't work with caps)
 ## need to define numbering function
@@ -48,6 +48,12 @@ multiple = m_len / k_len
 counter = 0
 
 while counter < multiple:
+    counter = counter + 1
+    for x in k_ord:
+        k_ord_long.append(x)
+
+counter_2 = 0
+while counter_2 < remainder:
     counter = counter + 1
     for x in k_ord:
         k_ord_long.append(x)
