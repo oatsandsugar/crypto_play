@@ -1,9 +1,5 @@
 # Caesar cypher
 
-## need to insert modulus (because it doesn't work with caps)
-## need to define numbering function
-## split into encrypt algo and decrypt algo
-
 m = "makeyourmessagesecureabcde" # this can be any string of ASCII characters, of any length
 m_ord = []
 m_len = 0
