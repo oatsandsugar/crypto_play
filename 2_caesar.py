@@ -1,10 +1,6 @@
 # Caesar cypher
 
-## need to insert modulus (because it doesn't work with caps)
-## need to define numbering function
-## split into encrypt algo and decrypt algo
-
-m = "" # this can be any string of ASCII characters, of any length
+m = "abcderfghijklmnopqrstuvwxyz" # this can be any string of ASCII characters, of any length
 k = 14
 m_ord = []
 c_ord = []
@@ -37,7 +33,7 @@ print(c_ord)
 for x in c_ord:
   c += chr(x)
 
-print c
+print(c)
 
 ## mutate c into numbers
 for x in c:
