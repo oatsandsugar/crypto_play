@@ -4,7 +4,7 @@
 ## need to define numbering function
 ## split into encrypt algo and decrypt algo
 
-m = "You suck a lot" # this can be any string of ASCII characters, of any length
+m = "" # this can be any string of ASCII characters, of any length
 k = 14
 m_ord = []
 c_ord = []
