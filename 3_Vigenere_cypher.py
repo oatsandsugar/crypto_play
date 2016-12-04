@@ -36,7 +36,7 @@ for x in k:
     k_ord.append(ord(x))
 print(k_ord)
 
-## loop k to be the same length of m
+## loop k to be the same length of m  ##this appears to overcompensate
 
 m_len = len(m)
 k_len = len(k)
