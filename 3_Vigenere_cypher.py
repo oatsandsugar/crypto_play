@@ -10,9 +10,9 @@ m_len = 0
 k = "sweet"
 k_ord = []
 k_len = 0
-k_ord_long = []
 remainder = 0
 multiple = 0
+k_ord_long = []
 c_ord = []
 
 m_proof = ""
