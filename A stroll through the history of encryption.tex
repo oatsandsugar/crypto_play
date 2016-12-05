@@ -197,13 +197,49 @@ dec(c_ord_proof)
 Where a Vig\`enere cipher has a small $k$, the cipher is susceptible to statistical distribution attacks. This becomes more difficult with the length of $k$. The strength of this cipher is not dependent on the strength of the encryption algorithm, but, rather the strength of the key---as such, it is not considered a ``strong'' cipher.
 
 \section{One time pads}
-The extreme example of the above comes in the form of a one time pad cipher. This is a strict subset of the Vig\`enere cipher, being a Vig\`enere cipher where $len(k) = len(m)$ and there is no discernible pattern in $k$ (e.g. $k$ is truly random). Where these requirements are satisfied and $k$ is not compromised, the cipher is uncompromisable.
+The extreme example of the above comes in the form of a one time pad cipher. This is a strict subset of the Vig\`enere cipher, being a Vig\`enere cipher where $len(k) = len(m)$ and there is no discernible pattern in $k$ (e.g. $k$ is truly random). Where these requirements are satisfied and $k$ is not compromised, the cipher is not compromisable.
 
-\section{The Picket Fence cipher}
-Unlike the above ciphers, the Picket Fence cipher is a transposition cipher (c.f. a substitution cipher).
+\section{Scytale cipher}
+Unlike the above ciphers, the Scytale cipher is a transposition cipher (c.f. a substitution cipher). Substitution ciphers replace single letters with other letters. Transposition ciphers obscure meaning by reordering the message text to create the ciphertext. These were one of the earliest forms of ciphers used, and were reportedly used by the Ancient Greeks, including, notably, the Spartan army.
 
+\begin{figure}[h!]
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textit{message} & m & a & k & e & y & o & u & r & m & e & s & s & a & g & e & s & e & c & u & r & e \\ \hline
+\textit{key line 1} & m & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & y & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & m & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & a & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e \\ \hline
+\textit{key line 2} & $\hookrightarrow$ & a & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & o & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & g & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & c & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ \\ \hline
+\textit{key line 3} & $\rightarrow$& $\rightarrow$ & k & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$ \\ \hline
+\textit{key line 4} & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\bullet$\\ \hline
+\textit{ciphertext} & m & y & m & a & e & e & a & o & e & g & c & k & u & s & e & u & e & r & s & s & r \\ \hline
+\end{tabular}
+\caption{The Vig\`enere cipher for $k = ``sweet''$}
+\end{figure}
 
+The word ``Scytale'' comes from the Greek word for ``baton'', which were one of the earliest tools used to encrypt and decrypt Scytale ciphers.
 
+\subsection{The Scytale cipher in python}
+
+\subsubsection{Variables}
+
+\begin{verbatim}
+...
+order = [] # this holds  the order that the message will be arranged into to make ciphertext
+...
+\end{verbatim}
+
+\subsubsection{The encryption function}
+
+\begin{verbatim}
+repetitions = int((len(m) / k)) + 1
+for i in range(0,k):
+    for j in range(0,repetitions):
+        index = (i + (j * k))
+        if index > len(m) - 1:
+            continue
+        else:
+            order.append(index)
+c = [m[i] for i in order]
+\end{verbatim}
 
 \section{Conclusion}
 Although a conclusion may review the main points of the paper, it must not replicate the abstract. A conclusion might elaborate on the importance of the work or suggest applications and extensions. Do not cite references in the conclusion. Note that the conclusion section is the last section of the paper to be numbered. The appendix (if present), acknowledgment, and references are listed without numbers.
