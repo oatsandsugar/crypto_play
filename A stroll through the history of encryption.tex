@@ -8,19 +8,7 @@
 \affiliation{Cornell Tech, 111 8th Avenue, New York, NY 10011}
 
 \begin{abstract}
-This paper will discuss several ciphers in their historical context. Where it is within the author's skill level, the cipher will be reduced to python code; where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described narratively. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. This paper will discuss:
-
-\begin{enumerate}
-    \item the Atbash cipher; 
-	\item the Caesar cipher;
-    \item the picket fence cipher;
-    \item the Vige\`nere cipher;
-    \item one time pads;
-    \item the enigma cipher; and
-    \item the RSA cipher.
-\end{enumerate}
-
-Whilst this is not a complete list of cryptographic developments, it allows us to highlight several important developments in cryptography.
+This paper will discuss several ciphers in their historical context. Where it is within the author's skill level, the cipher will be reduced to python code; where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described narratively. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. This paper will discuss basic monoalphabetic substitution ciphers (the Atbash, Caesar and Vige\`nere ciphers as well as one time pads), basic transposition ciphers (the picket fence cipher), more complex algorithmic ciphers (the enigma cipher) and public / private key encryption (the RSA cipher). Whilst this is not a complete list of cryptographic developments, it allows us to highlight several important developments in cryptography.
 \end{abstract}
 
 \maketitle
@@ -206,10 +194,10 @@ dec(c_ord_proof)
 \end{verbatim}
 
 \subsection{Criticism of the Vig\`enere cipher}
+Where a Vig\`enere cipher has a small $k$, the cipher is susceptible to statistical distribution attacks. This becomes more difficult with the length of $k$. The strength of this cipher is not dependent on the strength of the encryption algorithm, but, rather the strength of the key---as such, it is not considered a ``strong'' cipher.
 
 \section{One time pads}
-
-
+The extreme example of the above comes in the form of a one time pad cipher. This is a strict subset of the Vig\`enere cipher, being a Vig\`enere cipher where $len(k) = len(m)$ and there is no discernible pattern in $k$ (e.g. $k$ is truly random). Where these requirements are satisfied and $k$ is not compromised, the cipher is uncompromisable.
 
 \section{The Picket Fence cipher}
 Unlike the above ciphers, the Picket Fence cipher is a transposition cipher (c.f. a substitution cipher).
