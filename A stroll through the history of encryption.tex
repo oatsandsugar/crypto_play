@@ -53,6 +53,74 @@ To understand a cryptographic cipher, it is essential to understand its elements
 
 A strong cipher is one that fulfills the requirements of its creation, be it to prove authorship of a message or to prevent the message being comprehended by an unintended viewer. A cipher that is not compromised is a good cipher, and if it can do so economically and with the least possible friction to the users, it is even more so. For the sake of shorthand, we will consider \textit{Kerchoff's principle}: that despite the message continues to be strongly encrypted when $enc()$ and $dec()$ are known, and only $k$ remains hidden. This paper will analyse the relevant ciphers against this standard.
 
+\section{Scytale cipher}
+Unlike the above ciphers, the Scytale cipher is a transposition cipher (c.f. a substitution cipher). Substitution ciphers replace single letters with other letters. Transposition ciphers obscure meaning by reordering the message text to create the ciphertext. These were one of the earliest forms of ciphers used, and were reportedly used by the Ancient Greeks, including, notably, the Spartan army.
+
+The key length is the period of the cipher, with the message being reordered into ciphertext by taking the first, and then the $n * k$th letter of the message, circling back to the start when necessary and continuing the same function:
+
+\begin{figure}[h!]
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textit{message} & m & a & k & e & y & o & u & r & m & e & s & s & a & g & e & s & e & c & u & r & e \\ \hline
+\textit{key line 1} & m & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & y & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & m & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & a & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e \\ \hline
+\textit{key line 2} & $\hookrightarrow$ & a & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & o & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & g & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & c & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ \\ \hline
+\textit{key line 3} & $\hookrightarrow$ & $\rightarrow$ & k & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$  \\ \hline
+\textit{key line 4} & $\hookrightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\bullet$\\ \hline
+\textit{ciphertext} & m & y & m & a & e & e & a & o & e & g & c & k & u & s & e & u & e & r & s & s & r \\ \hline
+\end{tabular}
+\caption{The Scytale cipher for $k = 4$}
+\end{figure}
+
+The word ``Scytale'' comes from the Greek word for ``baton'', which were one of the earliest tools used to encrypt and decrypt Scytale ciphers---a strip of leather or parchment was wrapped around a segmented baton, and the message enscribed row by row across the faces of the baton: when unwrapped, the message was not clear unless the recipient had a baton with the same number and size of faces.
+
+Such a Scytale was referred to by Archilochus (700BC), and by Plutarch (in \textit{Lives (Lysander 19)}) as an encryption device: \textit{``... they make two round pieces of wood exactly alike ... Whenever, then, they wish to send some secret and important message, they make a scroll of parchment ... and wind it round their scytale ... they write what they wish on the parchment, just as it lies wrapped about the scytale; and when they have written their message, they take the parchment off and send it ... He, when he has received it, cannot otherwise get any meaning out of it ... unless he takes his own scytale and winds the strip of parchment about it...''}.
+
+\subsection{The Scytale cipher in python}
+
+\subsubsection{Variables}
+
+\begin{verbatim}
+...
+order = [] # this holds  the order that the message will be arranged into to make ciphertext
+...
+\end{verbatim}
+
+\subsubsection{The encryption function}
+
+\begin{verbatim}
+repetitions = int((len(m) / k)) + 1
+for i in range(0,k):
+    for j in range(0,repetitions):
+        index = (i + (j * k))
+        if index > len(m) - 1:
+            continue
+        else:
+            order.append(index)
+c = [m[i] for i in order]
+\end{verbatim}
+
+\subsubsection{The decryption function}
+
+\begin{verbatim}
+m_no = (len(c) / k) + 1
+repetitions = int((len(c) / k)) + 1
+for i in range(0,repetitions):
+    for j in range(0,k+1):
+        index = (i + (j * repetitions))
+        if index > len(m) - 1:
+            continue
+        else:
+            re_order.append(index)
+m_proof = [c[i] for i in re_order[0:len(m)]] # this works where k=x*len(m): x=int
+m_proof = ''.join(m_proof)
+\end{verbatim}
+
+\subsection{Criticism of the Scytale cipher}
+
+There are two central criticisms of the Scytale cipher. The first is poetic and is derived from its historic literal application: the ciphertext ribbon displayed kinks in it corresponding to the Scytale that encoded the message, making it exceptionally easy to decode. It was thought that this was cured by enscribing the ciphertext onto another parchment and transmitting it that way.  The second issue is the small size of the practical keyspace for this cipher---again, making it so easy to decipher without the key that it can be brute-forced manually.
+
+The weakness of this cipher has led some historians to note that this may have actually been a method of guaranteeing authorship (like certification and signature systems subsequently developed)---unless the folds on the cyphertext ribbon matched exactly with the Scytale of the purported sender, the recipient could not be sure that the message was sent by that sender.
+
 \section{The Atbash cipher}
 The Atbash cipher is purported to have been used in the old testament, as well as by ancient Israelites. It is a monoalphabetic substitution cipher where the substitution alphabet is the reverse of the plaintext alphabet:
 
@@ -206,75 +274,6 @@ The extreme example of the above comes in the form of a one time pad cipher. Thi
 If the length of the key is shorter than the length of the message, then the same weaknesses exist as in the Vig\`enere cipher. If there is some discernible pattern in the key then the key, and therefore the message, could be statistically derived (e.g. if the bible or some other book is used as the key, or the key is a badly generated random number with some pattern). If the same pad is used more than once, then inter-message analyses can reveal the key (which was how the original Vig\`enere cipher was purportedly cracked).
 
 Where these requirements are satisfied and $k$ is not compromised, the cipher is not compromisable. As such, these are still used today.
-
-\section{Scytale cipher}
-Unlike the above ciphers, the Scytale cipher is a transposition cipher (c.f. a substitution cipher). Substitution ciphers replace single letters with other letters. Transposition ciphers obscure meaning by reordering the message text to create the ciphertext. These were one of the earliest forms of ciphers used, and were reportedly used by the Ancient Greeks, including, notably, the Spartan army.
-
-The key length is the period of the cipher, with the message being reordered into ciphertext by taking the first, and then the $n * k$th letter of the message, circling back to the start when necessary and continuing the same function:
-
-\begin{figure}[h!]
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-\textit{message} & m & a & k & e & y & o & u & r & m & e & s & s & a & g & e & s & e & c & u & r & e \\ \hline
-\textit{key line 1} & m & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & y & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & m & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & a & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e \\ \hline
-\textit{key line 2} & $\hookrightarrow$ & a & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & o & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & g & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & c & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ \\ \hline
-\textit{key line 3} & $\hookrightarrow$ & k & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ \\ \hline
-\textit{key line 4} & $\hookrightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\bullet$\\ \hline
-\textit{ciphertext} & m & y & m & a & e & e & a & o & e & g & c & k & u & s & e & u & e & r & s & s & r \\ \hline
-\end{tabular}
-\caption{The Scytale cipher for $k = 4$}
-\end{figure}
-
-The word ``Scytale'' comes from the Greek word for ``baton'', which were one of the earliest tools used to encrypt and decrypt Scytale ciphers---a strip of leather or parchment was wrapped around a segmented baton, and the message enscribed row by row across the faces of the baton: when unwrapped, the message was not clear unless the recipient had a baton with the same number and size of faces.
-
-\subsection{The Scytale cipher in python}
-
-\subsubsection{Variables}
-
-\begin{verbatim}
-...
-order = [] # this holds  the order that the message will be arranged into to make ciphertext
-...
-\end{verbatim}
-
-\subsubsection{The encryption function}
-
-\begin{verbatim}
-repetitions = int((len(m) / k)) + 1
-for i in range(0,k):
-    for j in range(0,repetitions):
-        index = (i + (j * k))
-        if index > len(m) - 1:
-            continue
-        else:
-            order.append(index)
-c = [m[i] for i in order]
-\end{verbatim}
-
-\subsubsection{The decryption function}
-
-\begin{verbatim}
-m_no = (len(c) / k) + 1
-repetitions = int((len(c) / k)) + 1
-for i in range(0,repetitions):
-    for j in range(0,k+1):
-        index = (i + (j * repetitions))
-        if index > len(m) - 1:
-            continue
-        else:
-            re_order.append(index)
-m_proof = [c[i] for i in re_order[0:len(m)]] # this works where k=x*len(m): x=int
-m_proof = ''.join(m_proof)
-\end{verbatim}
-
-\subsection{Criticism of the Scytale cipher}
-
-There are two central criticisms of the Scytale cipher. The first is a 
-
-
-
-
-
 
 \section{Conclusion}
 Although a conclusion may review the main points of the paper, it must not replicate the abstract. A conclusion might elaborate on the importance of the work or suggest applications and extensions. Do not cite references in the conclusion. Note that the conclusion section is the last section of the paper to be numbered. The appendix (if present), acknowledgment, and references are listed without numbers.
