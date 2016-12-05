@@ -8,7 +8,7 @@
 \affiliation{Cornell Tech, 111 8th Avenue, New York, NY 10011}
 
 \begin{abstract}
-This paper will discuss several ciphers in their historical context. Where it is within the authors' skill level, the cipher will be reduced to python code; where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described through narrative. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. 
+This paper will discuss several ciphers in their historical context. Where it is within the authors' skill level, the cipher will be reduced to python code (available here: $https://github.com/oatsandsugar/crypto\_play/$); where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described through narrative. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. 
 This paper will discuss:
 \begin{enumerate}
 \item Atbash cipher, a simple monoalphabetic substitution cipher with a keyspace of 1;
@@ -62,7 +62,69 @@ To understand a cryptographic cipher, it is essential to understand its elements
 
 \subsection{What makes a good cipher}
 
-A strong cipher is one that fulfills the requirements of its creation, be it to prove authorship of a message or to prevent the message being comprehended by an unintended viewer. A cipher that is not compromised is a good cipher, and if it can do so economically and with the least possible friction to the users, it is even more so. For the sake of shorthand, we will consider \textit{Kerchoff's principle}: a cipher should be secure even if $enc()$ and $dec()$ are known, and only $k$ remains hidden. This paper will analyse the relevant ciphers against this standard.
+A strong cipher is one that fulfills the requirements of its creation, be it to prove authorship of a message or to prevent comprehension of the message by an unintended viewer. A cipher that is not compromised is a good cipher, and if it can do so economically and with the least possible friction to the users, it is even more so. For the sake of shorthand, we will consider \textit{Kerchoff's principle}: a cipher should be secure even if $enc()$ and $dec()$ are known, and only $k$ remains hidden. This paper will analyse the relevant ciphers against this standard.
+
+
+
+\section{The Atbash cipher}
+The Atbash cipher is purported to have been used in the old testament, as well as by ancient Israelites. It is a monoalphabetic substitution cipher where the substitution alphabet is the reverse of the plaintext alphabet:
+
+\begin{figure}[h!]
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+a & b & c & d & e & f & g & h & i & j & k & l & m & n & o & p & q & r & s & t & u & v & w & x & y & z \\ \hline
+Z & Y & Z & W & V & U & T & R & R & Q & P & O & N & M & L & K & J & I & H & G & F & E & D & C & B & A \\
+\hline
+\end{tabular}
+\caption{The Atbash cipher}
+\end{figure}
+
+The cipher is named for its application in the Hebrew alphabet, where the initial letter ``aleph'' is replaced by ``tav'' and ``bet'' is replaced by ``shin'': giving ``Atbash''. 
+
+\subsection{The Atbash cipher in Python}
+
+\subsubsection{Variables}
+\begin{verbatim}
+m = "" # this can be any string of ASCII characters, of any length
+k = # unused in this cipher
+m_ord = [] # this is m transformed into a list of integers
+c_ord = []
+c = ""
+\end{verbatim}
+Note, the variables are identical in most ciphers discussed, and will only be discussed for subsequent ciphers if interesting, or if such discussion forms part of the criticism of that cipher.
+
+\subsubsection{The encryption function}
+\begin{verbatim}
+def enc(z):
+    for x in z:
+        c_ord.append(27 - x + 64)
+enc(m_ord)
+\end{verbatim}
+
+\subsubsection{The decryption function}
+\begin{verbatim}
+def dec(z):
+  for x in z:
+    m_ord.append(27 - x + 64)
+dec(c_ord)
+\end{verbatim}
+
+\subsection{Criticism of the Atbash cipher}
+The Atbash cipher is an extremely simple cipher that, without question, fails if \textit{Kerchoff's Principle} is considered. Since there is a keyspace of 1, if the encryption and decryption algorithms are known, then it is trivial to decode the ciphertext. 
+
+\section{The Caesar cipher}
+The Caesar cipher is purported to have been used extensively in Roman times. Similar to the Atbash cipher, the Caesar cipher is a monoalphabetic substitution cipher. The Caesar cipher shifts each letter of the alphabet by a given number of places:
+
+\begin{figure}[h!]
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+a & b & c & d & e & f & g & h & i & j & k & l & m & n & o & p & q & r & s & t & u & v & w & x & y & z \\ \hline
+W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V \\
+\hline
+\end{tabular}
+\caption{The Caesar cipher for $k=4$}
+\end{figure}
+The Caesar cipher was named after its use (as explained by Suetonius in "Life of Julius Caesar") by Julius Caesar: \textit{``If he had anything confidential to say, he wrote it in cipher, that is, by so changing the order of the letters of the alphabet, that not a word could be made out. If anyone wishes to decipher these, and get at their meaning, he must substitute the fourth letter of the alphabet, namely D, for A, and so with the others.''} 
 
 \section{Scytale cipher}
 Unlike the above ciphers, the Scytale cipher is a transposition cipher (c.f. a substitution cipher). Substitution ciphers replace single letters with other letters. Transposition ciphers obscure meaning by reordering the message text to create the ciphertext. These were one of the earliest forms of ciphers used, and were reportedly used by the Ancient Greeks, including, notably, the Spartan army.
@@ -131,66 +193,6 @@ m_proof = ''.join(m_proof)
 There are two central criticisms of the Scytale cipher. The first is poetic and is derived from its historic literal application: the ciphertext ribbon displayed kinks in it corresponding to the Scytale that encoded the message, making it exceptionally easy to decode. It was thought that this was cured by enscribing the ciphertext onto another parchment and transmitting it that way.  The second issue is the small size of the practical keyspace for this cipher---again, making it so easy to decipher without the key that it can be brute-forced manually.
 
 The weakness of this cipher has led some historians to note that this may have actually been a method of guaranteeing authorship (like certification and signature systems subsequently developed)---unless the folds on the cyphertext ribbon matched exactly with the Scytale of the purported sender, the recipient could not be sure that the message was sent by that sender.
-
-\section{The Atbash cipher}
-The Atbash cipher is purported to have been used in the old testament, as well as by ancient Israelites. It is a monoalphabetic substitution cipher where the substitution alphabet is the reverse of the plaintext alphabet:
-
-\begin{figure}[h!]
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-a & b & c & d & e & f & g & h & i & j & k & l & m & n & o & p & q & r & s & t & u & v & w & x & y & z \\ \hline
-Z & Y & Z & W & V & U & T & R & R & Q & P & O & N & M & L & K & J & I & H & G & F & E & D & C & B & A \\
-\hline
-\end{tabular}
-\caption{The Atbash cipher}
-\end{figure}
-
-The cipher is named for its application in the Hebrew alphabet, where the initial letter ``aleph'' is replaced by ``tav'' and ``bet'' is replaced by ``shin'': giving ``Atbash''. 
-
-\subsection{The Atbash cipher in Python}
-
-\subsubsection{Variables}
-\begin{verbatim}
-m = "" # this can be any string of ASCII characters, of any length
-k = # unused in this cipher
-m_ord = [] # this is m transformed into a list of integers
-c_ord = []
-c = ""
-\end{verbatim}
-Note, the variables are identical in most ciphers discussed, and will only be discussed for subsequent ciphers if interesting, or if such discussion forms part of the criticism of that cipher.
-
-\subsubsection{The encryption function}
-\begin{verbatim}
-def enc(z):
-    for x in z:
-        c_ord.append(27 - x + 64)
-enc(m_ord)
-\end{verbatim}
-
-\subsubsection{The decryption function}
-\begin{verbatim}
-def dec(z):
-  for x in z:
-    m_ord.append(27 - x + 64)
-dec(c_ord)
-\end{verbatim}
-
-\subsection{Criticism of the Atbash cipher}
-The Atbash cipher is an extremely simple cipher that, without question, fails if \textit{Kerchoff's Principle} is considered. Since there is a keyspace of 1, if the encryption and decryption algorithms are known, then it is trivial to decode the ciphertext. 
-
-\section{The Caesar cipher}
-The Caesar cipher is purported to have been used extensively in Roman times. Similar to the Atbash cipher, the Caesar cipher is a monoalphabetic substitution cipher. The Caesar cipher shifts each letter of the alphabet by a given number of places:
-
-\begin{figure}[h!]
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-a & b & c & d & e & f & g & h & i & j & k & l & m & n & o & p & q & r & s & t & u & v & w & x & y & z \\ \hline
-W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V \\
-\hline
-\end{tabular}
-\caption{The Caesar cipher for $k=4$}
-\end{figure}
-The Caesar cipher was named after its use (as explained by Suetonius in "Life of Julius Caesar") by Julius Caesar: \textit{``If he had anything confidential to say, he wrote it in cipher, that is, by so changing the order of the letters of the alphabet, that not a word could be made out. If anyone wishes to decipher these, and get at their meaning, he must substitute the fourth letter of the alphabet, namely D, for A, and so with the others.''} 
 
 \subsection{The Caesar cipher in Python}
 
@@ -324,7 +326,7 @@ The reciver recreates $m$ from $c$ using the following function:
 $c^{b} \equiv (m^{a})^{b} $ (mod $c$). 
 
 \subsection{Criticisms of the RSA cipher}
-Whilst this is an incredibly difficult cipher to decipher, the ciphertext generated need not be deciphered for information to leak. If, for example, a plaintext ``no'' is, in ciphertext ``1827301983091'', and that is the entirety of the response, its repetition may give a cryptologists sufficient information. The RSA cipher has since been modified to add certain randomness to the encryption algorithm such that two encryptions of the same text will have different results.
+While this is an incredibly difficult cipher to decipher, the ciphertext generated need not be deciphered for information to leak. If, for example, a plaintext ``no'' is, in ciphertext ``1827301983091'', and that is the entirety of the response, its repetition may give a cryptologists sufficient information. The RSA cipher has since been modified to add certain randomness to the encryption algorithm such that two encryptions of the same text will have different results.
 
 This algorithm is compliant with the \textit{Kerchoff Priciple}, being secure despite $enc()$ and $dec()$ being publicly known. However, it is still critical to consider the use of this cryptographic system, human error, bad procedure and bad architecture have led to information being leaked despite the use of a strong cryptographic system.
 
