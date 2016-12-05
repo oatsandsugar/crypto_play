@@ -151,7 +151,8 @@ Further, with a simple statistical analysis a user would be able to determine wh
 \section{The Vig\`enere cipher}
 The Vig\`enere cipher was developed at least a thousand years after the aforementioned ciphers. It is, however, comparable, being a substitution cipher. Unlike the Atbash and Caesar ciphers, however, it is a polyaphabetic substitution cipher: in a polyalphabetic substitution cipher, the same input may return a different output (c.f. a monoalphabetic substitution cipher, where for each time a single letter is used in a message, the ciphertext will be the same).
 
-It is essentially a cipher of addition: with the sum of the the numerical values of the message and the key making up the ciphertext. 
+It is essentially a cipher of addition: with the sum of the the numerical values of the message and the key making up the ciphertext:
+
 
 \begin{figure}[h!]
 \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -164,6 +165,9 @@ It is essentially a cipher of addition: with the sum of the the numerical values
 \end{tabular}
 \caption{The Vig\`enere cipher for $k = ``sweet''$}
 \end{figure}
+
+[[[who was he]]]
+
 
 \subsection{The Vig\`enere cipher in Python}
 
@@ -197,10 +201,16 @@ dec(c_ord_proof)
 Where a Vig\`enere cipher has a small $k$, the cipher is susceptible to statistical distribution attacks. This becomes more difficult with the length of $k$. The strength of this cipher is not dependent on the strength of the encryption algorithm, but, rather the strength of the key---as such, it is not considered a ``strong'' cipher.
 
 \section{One time pads}
-The extreme example of the above comes in the form of a one time pad cipher. This is a strict subset of the Vig\`enere cipher, being a Vig\`enere cipher where $len(k) = len(m)$ and there is no discernible pattern in $k$ (e.g. $k$ is truly random). Where these requirements are satisfied and $k$ is not compromised, the cipher is not compromisable.
+The extreme example of the above comes in the form of a one time pad cipher. This is a strict subset of the Vig\`enere cipher, being a Vig\`enere cipher where $len(k) = len(m)$ and there is no discernible pattern in $k$ (e.g. $k$ is truly random).
+
+If the length of the key is shorter than the length of the message, then the same weaknesses exist as in the Vig\`enere cipher. If there is some discernible pattern in the key then the key, and therefore the message, could be statistically derived (e.g. if the bible or some other book is used as the key, or the key is a badly generated random number with some pattern). If the same pad is used more than once, then inter-message analyses can reveal the key (which was how the original Vig\`enere cipher was purportedly cracked).
+
+Where these requirements are satisfied and $k$ is not compromised, the cipher is not compromisable. As such, these are still used today.
 
 \section{Scytale cipher}
 Unlike the above ciphers, the Scytale cipher is a transposition cipher (c.f. a substitution cipher). Substitution ciphers replace single letters with other letters. Transposition ciphers obscure meaning by reordering the message text to create the ciphertext. These were one of the earliest forms of ciphers used, and were reportedly used by the Ancient Greeks, including, notably, the Spartan army.
+
+The key length is the period of the cipher, with the message being reordered into ciphertext by taking the first, and then the $n * k$th letter of the message, circling back to the start when necessary and continuing the same function:
 
 \begin{figure}[h!]
 \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -208,14 +218,14 @@ Unlike the above ciphers, the Scytale cipher is a transposition cipher (c.f. a s
 \textit{message} & m & a & k & e & y & o & u & r & m & e & s & s & a & g & e & s & e & c & u & r & e \\ \hline
 \textit{key line 1} & m & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & y & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & m & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & a & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e \\ \hline
 \textit{key line 2} & $\hookrightarrow$ & a & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & o & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & g & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & c & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ \\ \hline
-\textit{key line 3} & $\rightarrow$& $\rightarrow$ & k & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$ \\ \hline
-\textit{key line 4} & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\bullet$\\ \hline
+\textit{key line 3} & $\hookrightarrow$ & k & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ \\ \hline
+\textit{key line 4} & $\hookrightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\bullet$\\ \hline
 \textit{ciphertext} & m & y & m & a & e & e & a & o & e & g & c & k & u & s & e & u & e & r & s & s & r \\ \hline
 \end{tabular}
-\caption{The Vig\`enere cipher for $k = ``sweet''$}
+\caption{The Scytale cipher for $k = 4$}
 \end{figure}
 
-The word ``Scytale'' comes from the Greek word for ``baton'', which were one of the earliest tools used to encrypt and decrypt Scytale ciphers.
+The word ``Scytale'' comes from the Greek word for ``baton'', which were one of the earliest tools used to encrypt and decrypt Scytale ciphers---a strip of leather or parchment was wrapped around a segmented baton, and the message enscribed row by row across the faces of the baton: when unwrapped, the message was not clear unless the recipient had a baton with the same number and size of faces.
 
 \subsection{The Scytale cipher in python}
 
@@ -240,6 +250,31 @@ for i in range(0,k):
             order.append(index)
 c = [m[i] for i in order]
 \end{verbatim}
+
+\subsubsection{The decryption function}
+
+\begin{verbatim}
+m_no = (len(c) / k) + 1
+repetitions = int((len(c) / k)) + 1
+for i in range(0,repetitions):
+    for j in range(0,k+1):
+        index = (i + (j * repetitions))
+        if index > len(m) - 1:
+            continue
+        else:
+            re_order.append(index)
+m_proof = [c[i] for i in re_order[0:len(m)]] # this works where k=x*len(m): x=int
+m_proof = ''.join(m_proof)
+\end{verbatim}
+
+\subsection{Criticism of the Scytale cipher}
+
+There are two central criticisms of the Scytale cipher. The first is a 
+
+
+
+
+
 
 \section{Conclusion}
 Although a conclusion may review the main points of the paper, it must not replicate the abstract. A conclusion might elaborate on the importance of the work or suggest applications and extensions. Do not cite references in the conclusion. Note that the conclusion section is the last section of the paper to be numbered. The appendix (if present), acknowledgment, and references are listed without numbers.
