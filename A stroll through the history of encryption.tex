@@ -286,11 +286,16 @@ This required inputting the key (being the rotors, ring settings and plugboard c
 \item mechanical processes would, according to the ring settings, rotate each rotor by a certain number of positions, such that after each keypress the circuits between the input keys and output bulbs change (i.e. if ``q'' is typed, the same circuit to the output would not repeat until the period of the collection of rotors is completed).
 \end{enumerate}
 
-To encode a simulacra of an Enigma machine in python is beyond the scope of this paper.\footnote[2]{If the readers wish to interact with such a model, we commend to the reader Brian Neal's ``Py-Enigma'', available at https://py-enigma.readthedocs.io/en/latest/.}  However, no matter how much more complex the Enigma cipher was in comparison to its predecessors, it was essentially still a polyalphabetic substitution cipher---albeit with a greatly expanded keyspace and a more complex encryption algorithm.
+To encode a simulacra of an Enigma machine in python is beyond the scope of this paper.\footnote{If the readers wish to interact with such a model, we commend to the reader Brian Neal's ``Py-Enigma'', available at https://py-enigma.readthedocs.io/en/latest/.}  However, no matter how much more complex the Enigma cipher was in comparison to its predecessors, it was essentially still a polyalphabetic substitution cipher---albeit with a greatly expanded keyspace and a more complex encryption algorithm.
 
 \subsection{Criticism of the Enigma cipher}
 
-There were some historical weaknesses that rendered
+There were some historical weaknesses that rendered the Enigma cipher more breakable than it otherwise should have been. Many of these were procedural, including, for example, the losses of machines (that essentially revealed the encryption function despite the user's intention\footnote{Today, we would see that as good cryptographic practice, but considering the relative simplicity of the Enigma cipher, the secrecy of that algorithm was a central mechanism for protecting the cipher's rigor.}), repetition of salutations, etc. There were some critical algorithmic flaws too, however:  
+\begin{enumerate}
+\item for any letter input, the encryption algorithm would never return that letter as ciphertext;
+\item for any letter input, given the same key and encryption algorithm ``position'', the ciphertext would always be identical. 
+\end{enumerate}
+
 
 \section{The RSA cipher}
 
