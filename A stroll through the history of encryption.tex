@@ -275,6 +275,25 @@ If the length of the key is shorter than the length of the message, then the sam
 
 Where these requirements are satisfied and $k$ is not compromised, the cipher is not compromisable. As such, these are still used today.
 
+\section{The Enigma cipher}
+Much like the Vig\`enere cipher (which continued to be used during the same period as the Enigma cipher), the Enigma cipher is a polyalphabetic substitution function. However, the encryption algorithm of the Enigma cipher is much more complex, with an enormous number of substitution alphabets cycled through (almost definitely enough that the same substitution alphabet was unlikely to be used in the same message). 
+
+This required inputting the key (being the rotors, ring settings and plugboard connections chosen) as well as the ``state'' of the encryption algorithm (being the position of the rotors on the machine). With each key input, roughly the following processes would occur:
+
+\begin{enumerate}
+\item if the plugboard connected the pressed letter with another, they would be swapped (e.g. if ``q'' and ``b'' were connected, $q \longrightarrow b$);
+\item the button press would go through the various circuits embedded in each rotor (as selected, ordered and positioned), which alongside the inbuilt circuits would lead a light to shine through a letter that would be the ciphertext transformation; and
+\item mechanical processes would, according to the ring settings, rotate each rotor by a certain number of positions, such that after each keypress the circuits between the input keys and output bulbs change (i.e. if ``q'' is typed, the same circuit to the output would not repeat until the period of the collection of rotors is completed).
+\end{enumerate}
+
+To encode a simulacra of an Enigma machine in python is beyond the scope of this paper.\footnote[2]{If the readers wish to interact with such a model, we commend to the reader Brian Neal's ``Py-Enigma'', available at https://py-enigma.readthedocs.io/en/latest/.}  However, no matter how much more complex the Enigma cipher was in comparison to its predecessors, it was essentially still a polyalphabetic substitution cipher---albeit with a greatly expanded keyspace and a more complex encryption algorithm.
+
+\subsection{Criticism of the Enigma cipher}
+
+There were some historical weaknesses that rendered
+
+\section{The RSA cipher}
+
 \section{Conclusion}
 Although a conclusion may review the main points of the paper, it must not replicate the abstract. A conclusion might elaborate on the importance of the work or suggest applications and extensions. Do not cite references in the conclusion. Note that the conclusion section is the last section of the paper to be numbered. The appendix (if present), acknowledgment, and references are listed without numbers.
 
