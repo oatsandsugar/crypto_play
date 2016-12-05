@@ -4,26 +4,37 @@
 
 \title{A stroll through the history of encryption}
 
-\author{Johanan Ottensooser\footnote{Tech LLM Candidate '17} and Matthew Stichinski\footnote{Tech LLM Candidate '17}}
+\author{Johanan Ottensooser\footnote{Tech LLM Candidate '17: Cornell Tech; Bachelor of Law and Bachelor of Business (Economics): University of Technology, Sydney} and Matthew Stichinsky\footnote{Tech LLM Candidate '17}}
 \affiliation{Cornell Tech, 111 8th Avenue, New York, NY 10011}
 
 \begin{abstract}
-This paper will discuss several ciphers in their historical context. Where it is within the author's skill level, the cipher will be reduced to python code; where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described narratively. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. This paper will discuss basic monoalphabetic substitution ciphers (the Atbash, Caesar and Vige\`nere ciphers as well as one time pads), basic transposition ciphers (the picket fence cipher), more complex algorithmic ciphers (the enigma cipher) and public / private key encryption (the RSA cipher). Whilst this is not a complete list of cryptographic developments, it allows us to highlight several important developments in cryptography.
+This paper will discuss several ciphers in their historical context. Where it is within the authors' skill level, the cipher will be reduced to python code; where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described through narrative. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. 
+This paper will discuss:
+\begin{enumerate}
+\item Atbash cipher, a simple monoalphabetic substitution cipher with a keyspace of 1;
+\item Scytale cipher, a simple transposition cipher with a small practical keyspace;
+\item Caesar cipher, a simple monoalphabetic substitution cipher with a keyspace the size of the alphabet used;
+\item Vige\`nere cipher, a more complex polyalphabetic substitution cipher with complexity increasing with the size and randomness of the key;
+\item one time pads, a specific subset of Vige\`nere ciphers still in use, that are not crackable;
+\item Enigma machine cipher, a complex polyalphabetic substitution cipher; and
+\item RSA cipher, a complex polyaplphabetic substitution cipher that employs public private key encryption.
+\end{enumerate}
+While this is not a complete list of cryptographic developments, it allows us to highlight several important developments in cryptography.
 \end{abstract}
 
 \maketitle
 
 \section{Introduction}
-This paper intends to highlight several important developments in cryptography, culminating in a description of cryptographic rigor. In order to achieve this goal, this paper will encode certain ciphers in a uniform manner. This will allow the comparison of different ciphers by certain fields in their description, and an erstwhile description of their strengths and weaknesses. 
+This paper intends to highlight several important developments in cryptography, culminating in a description of cryptographic rigor. In order to achieve this goal, this paper will encode certain ciphers in a uniform manner. This will allow the comparison of different ciphers by certain fields in their description, and a description of their strengths and weaknesses. 
 
 Where we have been able to, we reduce each cipher to python code\footnote{Excuse any clumsiness in the coding, neither of the authors have any formal computer science training. For the sake of brevity, only snippets of the code are extracted, for the entire program, please see $https://github.com/oatsandsugar/crypto_play$}.
 
 \section{Defining cryptography}
 There are two central mechanisms for hiding messages: \textit{steganography} and \textit{cryptography}. 
 
-Steganography is about literally concealing messages. It has been used since classical times (for example, messages written on the wood of a wax tablet holding a false message; tattooes on the head of a slave whose hair has been allowed to grow back) and is used to this day (for example, messages encoded into insignificant digits of .jpeg files, or almost invisible yellow ink dots automatically printed that allow a knowing observer to identify the printer was used). The defining characteristic of this being that this is about obscuring an image---once the image is found, it is plain to read.
+Steganography is about literally concealing messages. It has been used since classical times (for example, messages written on the wood of a wax tablet holding a false message; tattoos on the head of a slave whose hair has been allowed to grow back) and is used to this day (for example, messages encoded into insignificant digits of .jpeg files, or almost invisible yellow ink dots automatically printed that allow a knowing observer to identify the printer was used). The defining characteristic of this is about obscuring an image---once the image is found, it is plain to read.
 
-Cryptography developed later---earliest records being ancient Egyptian, Greek and Hebrew usages (from which our first two analysed ciphers, the Atbash cipher and the Caesar cypher, purportedly originate), and continue to be developed and used to the present day. 
+Cryptography developed later---earliest records are ancient Egyptian, Greek and Hebrew usages (from which the Atbash cipher and the Caesar cipher, purportedly originate), and continue to be developed and used to the present day. 
 
 This paper will focus on the second: \textit{cryptography}.
 
@@ -51,12 +62,12 @@ To understand a cryptographic cipher, it is essential to understand its elements
 
 \subsection{What makes a good cipher}
 
-A strong cipher is one that fulfills the requirements of its creation, be it to prove authorship of a message or to prevent the message being comprehended by an unintended viewer. A cipher that is not compromised is a good cipher, and if it can do so economically and with the least possible friction to the users, it is even more so. For the sake of shorthand, we will consider \textit{Kerchoff's principle}: that despite the message continues to be strongly encrypted when $enc()$ and $dec()$ are known, and only $k$ remains hidden. This paper will analyse the relevant ciphers against this standard.
+A strong cipher is one that fulfills the requirements of its creation, be it to prove authorship of a message or to prevent the message being comprehended by an unintended viewer. A cipher that is not compromised is a good cipher, and if it can do so economically and with the least possible friction to the users, it is even more so. For the sake of shorthand, we will consider \textit{Kerchoff's principle}: a cipher should be secure even if $enc()$ and $dec()$ are known, and only $k$ remains hidden. This paper will analyse the relevant ciphers against this standard.
 
 \section{Scytale cipher}
 Unlike the above ciphers, the Scytale cipher is a transposition cipher (c.f. a substitution cipher). Substitution ciphers replace single letters with other letters. Transposition ciphers obscure meaning by reordering the message text to create the ciphertext. These were one of the earliest forms of ciphers used, and were reportedly used by the Ancient Greeks, including, notably, the Spartan army.
 
-The key length is the period of the cipher, with the message being reordered into ciphertext by taking the first, and then the $n * k$th letter of the message, circling back to the start when necessary and continuing the same function:
+The key length is the period of the cipher, with the message reordered into ciphertext by taking the first, and then the $n * k$th letter of the message, circling back to the start when necessary and continuing the same function:
 
 \begin{figure}[h!]
 \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -66,12 +77,12 @@ The key length is the period of the cipher, with the message being reordered int
 \textit{key line 2} & $\hookrightarrow$ & a & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & o & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & g & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & c & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ \\ \hline
 \textit{key line 3} & $\hookrightarrow$ & $\rightarrow$ & k & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & u & $\rightarrow$ & $\rightarrow$  \\ \hline
 \textit{key line 4} & $\hookrightarrow$ & $\rightarrow$ & $\rightarrow$ & e & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & s & $\rightarrow$ & $\rightarrow$ & $\rightarrow$ & r & $\bullet$\\ \hline
-\textit{ciphertext} & m & y & m & a & e & e & a & o & e & g & c & k & u & s & e & u & e & r & s & s & r \\ \hline
+\textit{ciphertext} & M & Y & M & A & E & E & A & O & E & G & C & K & U & S & E & U & E & R & S & S & R \\ \hline
 \end{tabular}
 \caption{The Scytale cipher for $k = 4$}
 \end{figure}
 
-The word ``Scytale'' comes from the Greek word for ``baton'', which were one of the earliest tools used to encrypt and decrypt Scytale ciphers---a strip of leather or parchment was wrapped around a segmented baton, and the message enscribed row by row across the faces of the baton: when unwrapped, the message was not clear unless the recipient had a baton with the same number and size of faces.
+The word ``Scytale'' comes from the Greek word for ``baton'', which was one of the earliest tools used to encrypt and decrypt Scytale ciphers---a strip of leather or parchment was wrapped around a segmented baton, and the message enscribed row by row across the faces of the baton: when unwrapped, the message was not clear unless the recipient had a baton with the same number and size of faces.
 
 Such a Scytale was referred to by Archilochus (700BC), and by Plutarch (in \textit{Lives (Lysander 19)}) as an encryption device: \textit{``... they make two round pieces of wood exactly alike ... Whenever, then, they wish to send some secret and important message, they make a scroll of parchment ... and wind it round their scytale ... they write what they wish on the parchment, just as it lies wrapped about the scytale; and when they have written their message, they take the parchment off and send it ... He, when he has received it, cannot otherwise get any meaning out of it ... unless he takes his own scytale and winds the strip of parchment about it...''}.
 
@@ -146,7 +157,7 @@ m_ord = [] # this is m transformed into a list of integers
 c_ord = []
 c = ""
 \end{verbatim}
-Note, this the variables are identical in most ciphers discussed, and will only be discussed for subsequent ciphers if interesting, or if such discussion forms part of the criticism of that cipher.
+Note, the variables are identical in most ciphers discussed, and will only be discussed for subsequent ciphers if interesting, or if such discussion forms part of the criticism of that cipher.
 
 \subsubsection{The encryption function}
 \begin{verbatim}
@@ -168,7 +179,7 @@ dec(c_ord)
 The Atbash cipher is an extremely simple cipher that, without question, fails if \textit{Kerchoff's Principle} is considered. Since there is a keyspace of 1, if the encryption and decryption algorithms are known, then it is trivial to decode the ciphertext. 
 
 \section{The Caesar cipher}
-The Caesar cipher is purpoerted to have been used extensively in Roman times. Similar to the Atbash cipher, the Caesar cipher is a monoalphabetic substitution cipher. The Caesar cipher shifts each letter of the alphabet by a given number of places:
+The Caesar cipher is purported to have been used extensively in Roman times. Similar to the Atbash cipher, the Caesar cipher is a monoalphabetic substitution cipher. The Caesar cipher shifts each letter of the alphabet by a given number of places:
 
 \begin{figure}[h!]
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -179,7 +190,7 @@ W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & 
 \end{tabular}
 \caption{The Caesar cipher for $k=4$}
 \end{figure}
-The Caesar cipher was named after its use (as purported by Suetonius in "Life of Julius Caesar") by Julius Caesar: \textit{``If he had anything confidential to say, he wrote it in cipher, that is, by so changing the order of the letters of the alphabet, that not a word could be made out. If anyone wishes to decipher these, and get at their meaning, he must substitute the fourth letter of the alphabet, namely D, for A, and so with the others.''} 
+The Caesar cipher was named after its use (as explained by Suetonius in "Life of Julius Caesar") by Julius Caesar: \textit{``If he had anything confidential to say, he wrote it in cipher, that is, by so changing the order of the letters of the alphabet, that not a word could be made out. If anyone wishes to decipher these, and get at their meaning, he must substitute the fourth letter of the alphabet, namely D, for A, and so with the others.''} 
 
 \subsection{The Caesar cipher in Python}
 
@@ -212,12 +223,12 @@ dec(c_ord)
 \end{verbatim}
 
 \subsection{Criticism of the Caesar cipher}
-Looking at the similarity of the encryption and decryption algorithms for the Atbash and Caesar ciphers, it is patently clear that both ciphers suffer the same weakness---the keyspace is too small. Whilst the Caesar cipher grows the keyspace from 1 to either 26 or 256 (depending on the alphabet used), this is still within the realm of being crackable by brute-force without a computer.
+Looking at the similarity of the encryption and decryption algorithms for the Atbash and Caesar ciphers, it is patently clear that both ciphers suffer the same weakness---the keyspace is too small. While the Caesar cipher grows the keyspace from 1 to either 26 or 256 (depending on the alphabet used), this is still within the realm of being decrypted by brute-force without a computer.
 
-Further, with a simple statistical analysis a user would be able to determine which letters replace common letters (e.g. the letter that appears most commonly is likely to substitute for ``e''). This is not a criticism unique to the Caesar cipher, it applies to any monoalphabetic substitution cipher (including non-linear substitutions), as well as many more sophisticated ciphers.
+Further, with a simple statistical analysis a user would be able to determine which letters replace common letters (e.g., the letter that appears most commonly is likely to substitute for ``e''). This is not a criticism unique to the Caesar cipher, it applies to any monoalphabetic substitution cipher (including non-linear substitutions), as well as many more sophisticated ciphers.
 
 \section{The Vig\`enere cipher}
-The Vig\`enere cipher was developed at least a thousand years after the aforementioned ciphers. It is, however, comparable, being a substitution cipher. Unlike the Atbash and Caesar ciphers, however, it is a polyaphabetic substitution cipher: in a polyalphabetic substitution cipher, the same input may return a different output (c.f. a monoalphabetic substitution cipher, where for each time a single letter is used in a message, the ciphertext will be the same).
+The Vig\`enere cipher was developed at least a thousand years after the aforementioned ciphers. It is, however, comparable, as it is also a substitution cipher. Unlike the Atbash and Caesar ciphers, however, it is a polyaphabetic substitution cipher: in a polyalphabetic substitution cipher, the same input may return a different output (c.f. a monoalphabetic substitution cipher, where for each time a single letter is used in a message, the ciphertext will be the same).
 
 It is essentially a cipher of addition: with the sum of the the numerical values of the message and the key making up the ciphertext:
 
@@ -234,8 +245,7 @@ It is essentially a cipher of addition: with the sum of the the numerical values
 \caption{The Vig\`enere cipher for $k = ``sweet''$}
 \end{figure}
 
-[[[who was he]]]
-
+The Vig\`enere cipher was originally described by Giovan Battista Bellaso in his 1553 book \textit{La cifra del. Sig. Giovan Battista Bellaso}.  Bellaso worked as a secretary in the Italian courts during a golden period in the history of cryptography: \textit{``The seven appended messages have been accurately compiled according to the concepts taught. They contain some beautiful things that are interesting to know. This will give the skilled and ingenious cryptographers the opportunity to strive to solve them, especially those who assert being capable to solve all kinds of ciphers. If this is true, as many believe, it will not be difficult for them to solve these cryptograms knowing all the rules by which they have been compiled, considering that the different ciphering methods are practically numberless.''}  In the 19th Century, Bellaso's cipher was misattributed to the author Blaise de Vig\`enere.\footnote{David, Kahn (1999). \textit{The Codebreakers: The Story of Secret Writing}}
 
 \subsection{The Vig\`enere cipher in Python}
 
@@ -269,21 +279,21 @@ dec(c_ord_proof)
 Where a Vig\`enere cipher has a small $k$, the cipher is susceptible to statistical distribution attacks. This becomes more difficult with the length of $k$. The strength of this cipher is not dependent on the strength of the encryption algorithm, but, rather the strength of the key---as such, it is not considered a ``strong'' cipher.
 
 \section{One time pads}
-The extreme example of the above comes in the form of a one time pad cipher. This is a strict subset of the Vig\`enere cipher, being a Vig\`enere cipher where $len(k) = len(m)$ and there is no discernible pattern in $k$ (e.g. $k$ is truly random).
+The extreme example of the above comes in the form of a one time pad cipher. This is a strict subset of the Vig\`enere cipher: it is a Vig\`enere cipher where $len(k) = len(m)$ and there is no discernible pattern in $k$ (e.g. $k$ is truly random).
 
-If the length of the key is shorter than the length of the message, then the same weaknesses exist as in the Vig\`enere cipher. If there is some discernible pattern in the key then the key, and therefore the message, could be statistically derived (e.g. if the bible or some other book is used as the key, or the key is a badly generated random number with some pattern). If the same pad is used more than once, then inter-message analyses can reveal the key (which was how the original Vig\`enere cipher was purportedly cracked).
+If the length of the key is shorter than the length of the message, then the same weaknesses exist as in the Vig\`enere cipher. If there is some discernible pattern in the key then the key, and therefore the message, could be statistically derived (e.g., if the bible or some other book is used as the key, or the key is a badly generated random number with some pattern). If the same pad is used more than once, then inter-message analyses can reveal the key (which was how the original Vig\`enere cipher was purportedly cracked).
 
 Where these requirements are satisfied and $k$ is not compromised, the cipher is not compromisable. As such, these are still used today.
 
 \section{The Enigma cipher}
 Much like the Vig\`enere cipher (which continued to be used during the same period as the Enigma cipher), the Enigma cipher is a polyalphabetic substitution function. However, the encryption algorithm of the Enigma cipher is much more complex, with an enormous number of substitution alphabets cycled through (almost definitely enough that the same substitution alphabet was unlikely to be used in the same message). 
 
-This required inputting the key (being the rotors, ring settings and plugboard connections chosen) as well as the ``state'' of the encryption algorithm (being the position of the rotors on the machine). With each key input, roughly the following processes would occur:
+This required inputting the key (the rotors, ring settings and plugboard connections chosen) as well as the ``state'' of the encryption algorithm (the position of the rotors on the machine). With each key input, roughly the following processes would occur:
 
 \begin{enumerate}
-\item if the plugboard connected the pressed letter with another, they would be swapped (e.g. if ``q'' and ``b'' were connected, $q \longrightarrow b$);
+\item if the plugboard connected the pressed letter with another, they would be swapped (e.g., if ``q'' and ``b'' were connected, $q \longrightarrow b$);
 \item the button press would go through the various circuits embedded in each rotor (as selected, ordered and positioned), which alongside the inbuilt circuits would lead a light to shine through a letter that would be the ciphertext transformation; and
-\item mechanical processes would, according to the ring settings, rotate each rotor by a certain number of positions, such that after each keypress the circuits between the input keys and output bulbs change (i.e. if ``q'' is typed, the same circuit to the output would not repeat until the period of the collection of rotors is completed).
+\item mechanical processes would, according to the ring settings, rotate each rotor by a certain number of positions, such that after each keypress the circuits between the input keys and output bulbs change (e.g., if ``q'' is typed, the same circuit to the output would not repeat until the period of the collection of rotors is completed).
 \end{enumerate}
 
 To encode a simulacra of an Enigma machine in python is beyond the scope of this paper.\footnote{If the readers wish to interact with such a model, we commend to the reader Brian Neal's ``Py-Enigma'', available at https://py-enigma.readthedocs.io/en/latest/.}  However, no matter how much more complex the Enigma cipher was in comparison to its predecessors, it was essentially still a polyalphabetic substitution cipher---albeit with a greatly expanded keyspace and a more complex encryption algorithm.
@@ -295,19 +305,55 @@ There were some historical weaknesses that rendered the Enigma cipher more break
 \item for any letter input, the encryption algorithm would never return that letter as ciphertext;
 \item for any letter input, given the same key and encryption algorithm ``position'', the ciphertext would always be identical. 
 \end{enumerate}
-
+The cryptographic and procedural flaws in the Enigma system meant that it was often broken within hours of a new key being chosen.
 
 \section{The RSA cipher}
 
+The next revolution in cryptography came with the introduction of public private key encryption. This is distinguishable from the aforementioned ciphers in that there is no need for the transmitter of the information to securely pass to the receiver a secret key for the ciphertext to be secure. Rather, the receiver transmits to the transmitter $K_{p}$ (the public key). This allows the transmitter to encode a message that only the receiver can decode by using $k_{s}$ (the private, or ``secret'' key).
+
+This requires the use of one-directional algorithms, which, in the case of RSA, was that when given three large integers, $a$, $b$, and $c$: $(m^{a})^{b} \equiv a $ (mod $c$). Here, $(a,c)$ is distributed as the public key, and $(b)$ is the private key used in decryption.
+
+\subsection{The RSA cipher mathematically}
+\subsubsection{Key generation}
+Key generation in RSA requires the multiplication of two large (100+ digit) prime numbers $(p,q)$ in order to be secure. The public and private keys are functions of the multiples of these primes (e.g. $k_{p}=pq$ and $k_s=(p,q)$).
+\subsubsection{The encryption function}
+The transmitter breaks apart the message into a series of integers $m$ which are then transformed with the following function:
+$c \equiv m^{a} $ (mod $c$).
+\subsubsection{The decryption function}
+The reciver recreates $m$ from $c$ using the following function:
+$c^{b} \equiv (m^{a})^{b} $ (mod $c$). 
+
+\subsection{Criticisms of the RSA cipher}
+Whilst this is an incredibly difficult cipher to decipher, the ciphertext generated need not be deciphered for information to leak. If, for example, a plaintext ``no'' is, in ciphertext ``1827301983091'', and that is the entirety of the response, its repetition may give a cryptologists sufficient information. The RSA cipher has since been modified to add certain randomness to the encryption algorithm such that two encryptions of the same text will have different results.
+
+This algorithm is compliant with the \textit{Kerchoff Priciple}, being secure despite $enc()$ and $dec()$ being publicly known. However, it is still critical to consider the use of this cryptographic system, human error, bad procedure and bad architecture have led to information being leaked despite the use of a strong cryptographic system.
+
 \section{Conclusion}
-Although a conclusion may review the main points of the paper, it must not replicate the abstract. A conclusion might elaborate on the importance of the work or suggest applications and extensions. Do not cite references in the conclusion. Note that the conclusion section is the last section of the paper to be numbered. The appendix (if present), acknowledgment, and references are listed without numbers.
+Cryptographic ciphers have increased in complexity and strength over time. With their complexity, we have learned that:
+\begin{itemize}
+\item the larger the keyspace, the more resilient the cipher is to brute-force attacks;
+\item that polyalphabetic ciphers are more resilient to attack than monoalphabetic ciphers, since they are resilient to statistical frequency attacks;
+\item that public private key encryption allow the transmission of encrypted information without needing a private channel to send a key; and
+\item that without randomness in the encryption function, no matter how resilient the cipher is, it will be susceptible to information leakage.
+\end{itemize}
 
-An Acknowledgments section, if used, immediately precedes the References. Sponsorship and financial support acknowledgments should be included here.
+A user cannot, however, allow the use of a resilient cryptographic cipher to lull the user into a false sense of security, as that is only one part of a strong cryptographic system. Good human practices, true randonmness in key generation and intelligent system architecture are all necessary for the cipher to help maintain secrecy. Finally, despite certain systems seeming secure, they must be subject to audit with the latest technology, as modern systems (such as nascent quantum computing systems) may compromise the security of these systems in the near future.
 
-\section*{References}
+\section*{Footnotes and References}
 
 \begin{thebibliography}{}
 \bibitem{1} Vatistas, G. H., Lin, S., and Kwok, C. K., ``Reverse Flow Radius in Vortex Chambers,'' \textit{AIAA Journal}, Vol. 24, No. 11, 1986, pp. 1872, 1873. doi: 10.2514/3.13046
+\bibitem{2} Reeds, Jim (1998). "Solved: The ciphers in book III of Trithemius's Steganographia". Cryptologia.
+\bibitem{3} U.S. Patent 4,405,829 for a "Cryptographic communications system and method", granted on September 20, 1983. 
+\bibitem{4} Shannon, Claude (4 October 1949). "Communication Theory of Secrecy Systems". Bell System Technical Journal. 28: 662.
+\bibitem{5} Russel, Frank (1999). Information Gathering in Classical Greece. U. Michigan Press.
+\bibitem{6} Plutarch. Plutarch's Lives. with an English Translation by. Bernadotte Perrin. Cambridge, MA. Harvard University Press. London. William Heinemann Ltd. 1916.
+\bibitem{7} Paul Y. Hoskisson. "Jeremiah's Game". Insights.
+\bibitem{8} Suetonis. "Life of Julius Caesar".
+\bibitem{9} Giovan Battista Bellaso (1553).  "La cifra del. Sig. Giovan Battista Bellaso".
+\bibitem{10} David, Kahn (1999). "The Codebreakers: The Story of Secret Writing".
+\bibitem{11} Green, Matthew. "The Ideal Cipher Model". https://blog.cryptographyengineering.com/2013/04/11/wonkery-mailbag-ideal-ciphers/
+\bibitem{12} Red Hat. "A Brief History of Cryptography". https://access.redhat.com/blogs/766093/posts/1976023
 
 \end{thebibliography}
 \end{document}
