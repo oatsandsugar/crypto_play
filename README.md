@@ -3,7 +3,7 @@ Playing with cryptography for Tech for Business @ Cornell Tech.
 Read the paper [here](https://github.com/oatsandsugar/crypto_play/blob/master/stroll-history-encryption.pdf).
 
 ## Abstract
-This paper will discuss several ciphers in their historical context. Where it is within the authors' skill level, the cipher will be reduced to python code (available [here](https://github.com/oatsandsugar/crypto_play/)); where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described through narrative. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. 
+This paper will discuss several ciphers in their historical context. Where it is within the authors' skill level, the cipher will be reduced to python code; where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described through narrative. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. 
 
 This paper will discuss:
 
