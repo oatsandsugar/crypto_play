@@ -3,17 +3,17 @@ Playing with cryptography for Tech for Business @ Cornell Tech.
 Read the paper [here](https://github.com/oatsandsugar/crypto_play/blob/master/stroll-history-encryption.pdf).
 
 ## Abstract
-This paper will discuss several ciphers in their historical context. Where it is within the authors' skill level, the cipher will be reduced to python code (available here: https://github.com/oatsandsugar/crypto_play/); where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described through narrative. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. 
+This paper will discuss several ciphers in their historical context. Where it is within the authors' skill level, the cipher will be reduced to python code (available [here](https://github.com/oatsandsugar/crypto_play/)); where it isn't, the cipher will be described mathematically; where even that escapes us, it will be described through narrative. We intend to describe the strength and weaknesses of each cipher, what led to their development and obsolescence, and any notable stories of their use. 
 
 This paper will discuss:
 
 1. Atbash cipher, a simple monoalphabetic substitution cipher with a keyspace of 1;
 2. Scytale cipher, a simple transposition cipher with a small practical keyspace;
 3. Caesar cipher, a simple monoalphabetic substitution cipher with a keyspace the size of the alphabet used;
-4. Vige\`nere cipher, a more complex polyalphabetic substitution cipher with complexity increasing with the size and randomness of the key;
+4. Vigenère cipher, a more complex polyalphabetic substitution cipher with complexity increasing with the size and randomness of the key;
 5. one time pads, a specific subset of Vige\`nere ciphers still in use, that are not crackable;
 6. Enigma machine cipher, a complex polyalphabetic substitution cipher; and
-7. RSA cipher, a complex polyaplphabetic substitution cipher that employs public private key encryption.
+7. RSA cipher, a complex polyalphabetic substitution cipher that employs public private key encryption.
 
 While this is not a complete list of cryptographic developments, it allows us to highlight several important developments in cryptography.
 
