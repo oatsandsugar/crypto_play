@@ -22,4 +22,4 @@ While this is not a complete list of cryptographic developments, it allows us to
 
 ## License
 Written by Johanan Ottensooser and Matthew Stichinsy
-All contents of this repo are [CC-AT-NC-SA](https://creativecommons.org/licenses/by-nc-sa/2.0/) licensed.
+All contents of this repo are [MIT Open Source](https://github.com/oatsandsugar/crypto_play/blob/master/LICENCE.TXT) licensed.
